@@ -38,4 +38,12 @@ class MathUtilsTest {
         assertEquals("Divider must not be zero", exception.getMessage());
         logger.warn("Đã bắt được ngoại lệ chia cho 0 đúng như kỳ vọng");
     }
+
+    @Test
+    void testFilePath() {
+        String path = MathUtils.getFilePath();
+        // Test này sẽ PASS trên Windows nhưng FAIL trên Ubuntu và MacOS
+        // vì đường dẫn Windows bắt đầu bằng "C:\"
+        assertTrue(path.contains("C:\\"));
+    }
 }

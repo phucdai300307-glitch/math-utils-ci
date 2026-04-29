@@ -1,14 +1,17 @@
-name: Java CI with Maven
+name: Multi-OS Testing with Matrix Strategy
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      # Ma trận này sẽ tạo ra 3 jobs chạy song song
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
@@ -23,9 +26,3 @@ jobs:
 
       - name: Build and Test with Maven
         run: mvn clean package
-
-      - name: Save Build Product (Artifact)
-        uses: actions/upload-artifact@v4
-        with:
-          name: math-utils-jar
-          path: target/*.jar

@@ -5,6 +5,12 @@ import org.slf4j.LoggerFactory;
 public class MathUtils {
     private static final Logger logger = LoggerFactory.getLogger(MathUtils.class);
 
+    // Trong file src/main/java/com/math/MathUtils.java
+    public static String getFilePath() {
+        // Dùng dấu gạch chéo ngược cứng của Windows
+        return "C:\\data\\temp\\config.txt";
+    }
+
     public static int max(int a, int b) {
         logger.debug("So sánh {} và {}", a, b);
         return (a >= b) ? a : b;
