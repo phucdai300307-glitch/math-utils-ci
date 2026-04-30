@@ -1,13 +1,13 @@
-name: Multi-OS Testing with Matrix Strategy
+name: JaCoCo Test Coverage & Quality Enforcement
 
 on:
   push:
-    branches: [ "main" ]
+    # Đổi thành bai5 để GitHub Actions chạy khi bạn push vào nhánh mới
+    branches: [ "bai5" ]
 
 jobs:
   build:
     strategy:
-      # Ma trận này sẽ tạo ra 3 jobs chạy song song
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -24,5 +24,15 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and Test with Maven
-        run: mvn clean package
+      - name: Build and Verify with JaCoCo
+        # Sử dụng 'verify' thay vì 'package' để kích hoạt jacoco:check (80%)
+        run: mvn clean verify
+
+      - name: Upload JaCoCo Report
+        # Dùng if: always() để đảm bảo báo cáo vẫn được upload kể cả khi test fail
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          # Tên artifact riêng biệt cho từng hệ điều hành để không bị đè lên nhau
+          name: jacoco-report-${{ matrix.os }}
+          path: target/site/jacoco/
