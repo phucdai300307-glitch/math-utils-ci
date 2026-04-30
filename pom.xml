@@ -84,6 +84,28 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <!-- Sử dụng quy tắc đặt tên và định dạng chuẩn của Google -->
+                    <configLocation>google_checks.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>true</failsOnError>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- KẾT THÚC PHẦN THÊM MỚI -->
         </plugins>
     </build>

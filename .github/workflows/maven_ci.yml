@@ -1,14 +1,19 @@
-name: JaCoCo Test Coverage & Quality Enforcement
+name: Automated Code Review & Quality Control
 
 on:
+  # THAY ĐỔI 1: Chuyển sang trigger Pull Request vào nhánh main
+  pull_request:
+    branches: [ "main" ]
+  # Vẫn giữ push trên bai7 để bạn kiểm tra nội bộ nếu muốn
   push:
-    # Đổi thành bai6 để GitHub Actions chạy khi bạn push vào nhánh mới
-    branches: [ "bai6" ]
+    branches: [ "bai7" ]
 
 jobs:
   build:
     strategy:
       matrix:
+        # Ở Bài 7, để Bot comment không bị trùng lặp 3 lần,
+        # ta có thể chỉ cần chạy Checkstyle trên Ubuntu là đủ.
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
@@ -24,15 +29,22 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and Verify with JaCoCo
-        # Sử dụng 'verify' thay vì 'package' để kích hoạt jacoco:check (80%)
+      - name: Build, Test and Checkstyle
+        # Lệnh verify sẽ chạy cả Unit Test, JaCoCo (80%) và Checkstyle (validate)
         run: mvn clean verify
 
+      # THAY ĐỔI 2: Tích hợp Bot tự động để lại bình luận lỗi (Inline Feedback)
+      # Bước này chỉ chạy trên Linux để tránh spam comment từ nhiều OS
+      - name: Checkstyle Review Comments
+        uses: dbelyaev/action-checkstyle@master
+        if: failure() && matrix.os == 'ubuntu-latest'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          level: warning
+
       - name: Upload JaCoCo Report
-        # Dùng if: always() để đảm bảo báo cáo vẫn được upload kể cả khi test fail
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          # Tên artifact riêng biệt cho từng hệ điều hành để không bị đè lên nhau
           name: jacoco-report-${{ matrix.os }}
           path: target/site/jacoco/
