@@ -35,12 +35,12 @@ jobs:
 
       # THAY ĐỔI 2: Tích hợp Bot tự động để lại bình luận lỗi (Inline Feedback)
       # Bước này chỉ chạy trên Linux để tránh spam comment từ nhiều OS
-      - name: Checkstyle Review Comments
-        uses: dbelyaev/action-checkstyle@master
-        if: failure()
+      # THAY ĐỔI 2: Dùng Bot đọc trực tiếp báo cáo của Maven
+      - name: Report Checkstyle Errors
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        if: always() # Luôn chạy dù Maven pass hay fail
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          level: warning
+          path: '**/checkstyle-result.xml' # Đọc báo cáo do Maven sinh ra
 
       - name: Upload JaCoCo Report
         if: always()
