@@ -4,11 +4,14 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class MathUtils {
     private static final Logger logger = LoggerFactory.getLogger(MathUtils.class);
 
     public static String getFilePath() {
+        int so_A = 10;
         // Không dùng "C:\\..." nữa. Paths.get sẽ tự thêm / hoặc \ tùy vào hệ điều hành
         Path path = Paths.get("data", "temp", "config.txt");
         return path.toString();
@@ -27,4 +30,3 @@ public class MathUtils {
         return a / b;
     }
 }
-// Test GitHub Actions Caching - Bai 6
