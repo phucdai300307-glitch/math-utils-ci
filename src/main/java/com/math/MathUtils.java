@@ -4,13 +4,13 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
 
 
 public class MathUtils {
     private static final Logger logger = LoggerFactory.getLogger(MathUtils.class);
     public static final int so_nguyen_mau = 10;
+    public void Tinh_Toan() {};
 
     public static String getFilePath() {
         int so_A = 10;
@@ -23,8 +23,6 @@ public class MathUtils {
         logger.debug("So sánh {} và {}", a, b);
         return (a >= b) ? a : b;
     }
-
-    public void Tinh_Toan() {};
 
     public static int divide(int a, int b) {
         if (b==0) {

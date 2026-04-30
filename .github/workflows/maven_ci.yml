@@ -37,7 +37,7 @@ jobs:
       # Bước này chỉ chạy trên Linux để tránh spam comment từ nhiều OS
       - name: Checkstyle Review Comments
         uses: dbelyaev/action-checkstyle@master
-        if: failure() && matrix.os == 'ubuntu-latest'
+        if: failure()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           level: warning
