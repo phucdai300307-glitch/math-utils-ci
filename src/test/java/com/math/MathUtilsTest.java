@@ -49,6 +49,7 @@ class MathUtilsTest {
     }
 
     @Test
+    @DisplayName("Kiểm tra tạo đường dẫn tệp tin")
     void testFilePathRefactored() {
         String path = MathUtils.getFilePath();
         // Kiểm tra xem đường dẫn có chứa các thư mục mong muốn không

@@ -13,6 +13,13 @@ public class MathUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(MathUtils.class);
 
     /**
+     * Private constructor to prevent instantiation of utility class.
+     */
+    private MathUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
+    /**
      * Generates a platform-independent file path.
      *
      * @return the string representation of the file path.
