@@ -1,14 +1,19 @@
-name: Multi-OS Testing with Matrix Strategy
+name: Automated Code Review & Quality Control
 
 on:
-  push:
+  # THAY ĐỔI 1: Chuyển sang trigger Pull Request vào nhánh main
+  pull_request:
     branches: [ "main" ]
+  # Vẫn giữ push trên bai7 để bạn kiểm tra nội bộ nếu muốn
+  push:
+    branches: [ "bai7" ]
 
 jobs:
   build:
     strategy:
-      # Ma trận này sẽ tạo ra 3 jobs chạy song song
       matrix:
+        # Ở Bài 7, để Bot comment không bị trùng lặp 3 lần,
+        # ta có thể chỉ cần chạy Checkstyle trên Ubuntu là đủ.
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
@@ -24,5 +29,22 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build and Test with Maven
-        run: mvn clean package
+      - name: Build, Test and Checkstyle
+        # Lệnh verify sẽ chạy cả Unit Test, JaCoCo (80%) và Checkstyle (validate)
+        run: mvn clean verify
+
+      # THAY ĐỔI 2: Tích hợp Bot tự động để lại bình luận lỗi (Inline Feedback)
+      # Bước này chỉ chạy trên Linux để tránh spam comment từ nhiều OS
+      # THAY ĐỔI 2: Dùng Bot đọc trực tiếp báo cáo của Maven
+      - name: Report Checkstyle Errors
+        uses: jwgmeligmeyling/checkstyle-github-action@master
+        if: always() # Luôn chạy dù Maven pass hay fail
+        with:
+          path: '**/checkstyle-result.xml' # Đọc báo cáo do Maven sinh ra
+
+      - name: Upload JaCoCo Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report-${{ matrix.os }}
+          path: target/site/jacoco/
