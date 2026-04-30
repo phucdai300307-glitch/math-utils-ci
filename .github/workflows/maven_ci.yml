@@ -2,7 +2,7 @@ name: JaCoCo Test Coverage & Quality Enforcement
 
 on:
   push:
-    # Đổi thành bai5 để GitHub Actions chạy khi bạn push vào nhánh mới
+    # Đổi thành bai6 để GitHub Actions chạy khi bạn push vào nhánh mới
     branches: [ "bai5" ]
 
 jobs:

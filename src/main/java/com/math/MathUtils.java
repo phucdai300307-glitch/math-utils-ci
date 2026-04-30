@@ -20,7 +20,7 @@ public class MathUtils {
 
     public static int divide(int a, int b) {
         if (b == 0) {
-            logger.error("Lỗi chia cho 0 với số bị chia là {}", a);
+            logger.error("Lỗi chia cho số 0 với số bị chia là {}", a);
             throw new IllegalArgumentException("Divider must not be zero");
         }
         return a / b;
