@@ -1,14 +1,16 @@
 package com.math;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class MathUtils {
     private static final Logger logger = LoggerFactory.getLogger(MathUtils.class);
 
-    // Trong file src/main/java/com/math/MathUtils.java
     public static String getFilePath() {
-        // Dùng dấu gạch chéo ngược cứng của Windows
-        return "C:\\data\\temp\\config.txt";
+        // Không dùng "C:\\..." nữa. Paths.get sẽ tự thêm / hoặc \ tùy vào hệ điều hành
+        Path path = Paths.get("data", "temp", "config.txt");
+        return path.toString();
     }
 
     public static int max(int a, int b) {
