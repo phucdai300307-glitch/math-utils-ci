@@ -40,10 +40,13 @@ class MathUtilsTest {
     }
 
     @Test
-    void testFilePath() {
+    void testFilePathValidation() {
         String path = MathUtils.getFilePath();
-        // Test này sẽ PASS trên Windows nhưng FAIL trên Ubuntu và MacOS
-        // vì đường dẫn Windows bắt đầu bằng "C:\"
-        assertTrue(path.contains("C:\\"));
+        java.io.File file = new java.io.File(path);
+
+        // TRỌNG TÂM: Kiểm tra xem đây có phải đường dẫn tuyệt đối hợp lệ không.
+        // Trên Windows: "C:\..." là Absolute -> PASS.
+        // Trên Linux/Mac: "C:\..." KHÔNG phải Absolute (vì Linux bắt đầu bằng /) -> FAIL.
+        assertTrue(file.isAbsolute(), "LỖI: Đường dẫn không hợp lệ trên hệ điều hành này!");
     }
 }
