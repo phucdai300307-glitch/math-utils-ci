@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
   # Vẫn giữ push trên bai7 để bạn kiểm tra nội bộ nếu muốn
   push:
-    branches: [ "bai7" ]
+    branches: [ "bai07" ]
 
 jobs:
   build:
